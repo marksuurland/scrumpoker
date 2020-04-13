@@ -1,6 +1,6 @@
 <div id="deck" class="deck-container">
-    <div *ngFor="let card of cards" (click)="toggleCardClicked()" class="card">
-        <div class="inner" [ngClass]="toggleCard ? 'turn' : ''">
+    <div *ngFor="let card of cards" (click)="toggleCardClicked(card)" class="card">
+        <div class="inner" [ngClass]="card.toggle ? 'turn' : ''">
             <div class="front" [ngStyle]="{background: 'url(' + imageUrl + card.image + ')', 'background-size': 'cover' }"></div>
             <div class="back"  [ngStyle]="{background: 'url(' + imageUrl + imageCover + ')', 'background-size': 'cover' }"></div>
         </div>
