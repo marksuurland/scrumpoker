@@ -9,6 +9,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class PokerRoomDetailComponent implements OnInit {
   public imageUrl = 'https://raw.githubusercontent.com/redbooth/Scrum-poker-cards/master/png/';
   public imageCover = 'Cover%20-%20option%202.png';
+  public pickCard: boolean = false;
 
   public cards = [
     { points: '1', image: "planning%20poker_Low%20hanging%20fruit.png", toggle: false },
@@ -36,6 +37,10 @@ export class PokerRoomDetailComponent implements OnInit {
 
   public toggleCardClicked(card: any) {
     card.toggle = !card.toggle;
+  }
+
+  public pickCardClick() {
+    this.pickCard = !this.pickCard;
   }
 
 }
