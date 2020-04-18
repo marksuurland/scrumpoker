@@ -1,0 +1,24 @@
+
+<div *ngIf="canPick">
+    <button *ngIf="!deckMode" mat-raised-button color="primary" (click)="toggleDeckMode()">Deck</button>
+    <button *ngIf="pickedCard" mat-raised-button color="secondary" (click)="tellOthersClicked()" [disabled]="pickedCard.points === '0'">Tell others</button>
+</div>
+
+<div *ngIf="pickedCard && !deckMode" class="single-card">
+    <div id="deck">
+        <div class="card" (click)="onToggleCardClicked(pickedCard)">
+            <div class="inner" [ngClass]="pickedCard.toggle ? 'turn' : ''">
+                <div class="front" [ngStyle]="{background: 'url(' + imageUrl + pickedCard.image + ')', 'background-size': 'cover' }"></div>
+                <div class="back"  [ngStyle]="{background: 'url(' + imageUrl + imageCover + ')', 'background-size': 'cover' }"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="deckMode" id="deck">
+    <div *ngFor="let card of cards" (click)="onDeckCardClicked(card)" class="card">
+        <div class="inner">
+            <div class="front" [ngStyle]="{background: 'url(' + imageUrl + card.image + ')', 'background-size': 'cover' }"></div>
+        </div>
+    </div>
+</div>

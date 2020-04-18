@@ -1,0 +1,13 @@
+<div *ngIf="player.name === currentPlayer">
+    <span>{{ player.name }}</span><br/>
+    <pick-card [playerPoints]="player.points" [canPick]="true" (tellOthers)="ontellOthers($event)"></pick-card>
+</div>
+<div *ngIf="player.name !== currentPlayer">
+    <span>{{ player.name }}</span>
+    <div *ngIf="player.points === '0'">
+        Still picking...
+    </div>
+    <div *ngIf="player.points !== '0'">
+        <pick-card [playerPoints]="player.points" [canPick]="false" (tellOthers)="ontellOthers($event)"></pick-card>
+    </div>
+</div>

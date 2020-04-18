@@ -1,11 +1,7 @@
-<div *ngIf="!pickCard">
-    <button mat-raised-button color="primary" (click)="pickCardClick()">Pick poker points</button>
+<div *ngIf="loading">
+
 </div>
-<div *ngIf="pickCard" id="deck" class="deck-container">
-    <div *ngFor="let card of cards" (click)="toggleCardClicked(card)" class="card">
-        <div class="inner" [ngClass]="card.toggle ? 'turn' : ''">
-            <div class="front" [ngStyle]="{background: 'url(' + imageUrl + card.image + ')', 'background-size': 'cover' }"></div>
-            <div class="back"  [ngStyle]="{background: 'url(' + imageUrl + imageCover + ')', 'background-size': 'cover' }"></div>
-        </div>
-    </div>
+
+<div *ngIf="!loading" class="player-container">
+    <player *ngFor="let player of pokerGame.players" [player]="player" [currentPlayer]="currentPlayer"></player>
 </div>
