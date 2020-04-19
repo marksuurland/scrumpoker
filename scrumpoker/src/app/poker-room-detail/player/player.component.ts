@@ -13,7 +13,7 @@ export class PlayerComponent implements OnInit {
   public player: Player;
 
   @Input()
-  public currentPlayer: string;
+  public currentPlayer: boolean = false;
 
   public tempPokerGame: PokerGame;
 
