@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Card } from './poker.interface';
+import { Card } from 'src/app/interfaces/poker.interface';
 
 @Injectable({
     providedIn: 'root'

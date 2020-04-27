@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Card } from 'src/app/poker.interface';
+import { Card } from 'src/app/interfaces/poker.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { DeckComponent } from '../deck/deck.component';
-import { PokerService } from 'src/app/poker.service';
+import { PokerService } from 'src/app/services/poker.service';
 
 @Component({
   selector: 'pick-card',

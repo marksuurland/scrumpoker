@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { PokerGame, Player } from 'src/app/poker.interface';
+import { PokerGame, Player } from 'src/app/interfaces/poker.interface';
 import { ActivatedRoute } from '@angular/router';
-import { PokerService } from '../poker.service';
+import { PokerService } from 'src/app/services/poker.service';
 
 @Component({
   selector: 'app-poker-room-detail',

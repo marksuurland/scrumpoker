@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Player, Card, PokerGame } from '../../poker.interface';
+import { Player, Card, PokerGame } from '../../interfaces/poker.interface';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({

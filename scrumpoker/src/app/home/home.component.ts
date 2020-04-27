@@ -3,8 +3,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { PokerGame } from '../poker.interface';
-import { PokerService } from '../poker.service';
+import { PokerGame } from '../interfaces/poker.interface';
+import { PokerService } from 'src/app/services/poker.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +29,10 @@ export class HomeComponent implements OnInit {
   public expandedGame: PokerGame | null;
   public playerName = ''
 
-  constructor(private firestore: AngularFirestore, private router: Router, private pokerService: PokerService) {
+  constructor(private firestore: AngularFirestore,
+    private router: Router,
+    private pokerService: PokerService,
+    public authService: AuthService) {
     this.items = firestore.collection('items').valueChanges({ idField: 'id' });
   }
 

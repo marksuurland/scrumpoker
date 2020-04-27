@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PokerService } from 'src/app/poker.service';
-import { Card } from 'src/app/poker.interface';
+import { PokerService } from 'src/app/services/poker.service';
+import { Card } from 'src/app/interfaces/poker.interface';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
