@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Player, Card, PokerGame } from '../poker.interface';
+import { Player, Card, PokerGame } from '../../poker.interface';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
@@ -13,17 +13,20 @@ export class PlayerComponent implements OnInit {
   public player: Player;
 
   @Input()
+  public pokerGameId: string;
+
+  @Input()
   public currentPlayer: boolean = false;
 
   public tempPokerGame: PokerGame;
 
-  constructor(private firestore: AngularFirestore) { 
-    firestore.collection('items').doc('48FeaqpPXyDsWokX2ogI').valueChanges().subscribe((result: PokerGame) => {
-      this.tempPokerGame = result;
-     });
+  constructor(private firestore: AngularFirestore) {
   }
 
   ngOnInit(): void {
+    this.firestore.collection('items').doc(this.pokerGameId).valueChanges().subscribe((result: PokerGame) => {
+      this.tempPokerGame = result;
+     });
   }
 
   public ontellOthers(card: Card) {
@@ -34,7 +37,7 @@ export class PlayerComponent implements OnInit {
 
     this.firestore
     .collection("items")
-    .doc('48FeaqpPXyDsWokX2ogI')
+    .doc(this.pokerGameId)
     .set(this.tempPokerGame, { merge: true });
   }
 

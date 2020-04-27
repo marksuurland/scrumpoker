@@ -1,0 +1,9 @@
+<mat-dialog-content class="large-dialog">
+    <div id="deck">
+        <div *ngFor="let card of cards" (click)="onDeckCardClicked(card)" class="card">
+            <div class="inner">
+                <div class="front" [ngStyle]="{background: 'url(' + imageUrl + card.image + ')', 'background-size': 'cover' }"></div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

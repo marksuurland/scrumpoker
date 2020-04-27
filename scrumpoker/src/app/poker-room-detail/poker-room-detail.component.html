@@ -10,9 +10,9 @@
 <div *ngIf="!loading" class="poker-container">
     <button mat-raised-button color="primary" (click)="resetPokerPoints()">New poker session</button>
     <div class="single-player-container">
-      <player *ngFor="let player of [currentPlayer]" [player]="player" [currentPlayer]="true"></player>
+      <player *ngFor="let player of [currentPlayer]" [player]="player" [pokerGameId]="pokerGameId" [currentPlayer]="true"></player>
     </div>
     <div class="player-container">
-      <player *ngFor="let player of pokerGame.players" [player]="player"></player>
+      <player *ngFor="let player of pokerGame.players" [player]="player" [pokerGameId]="pokerGameId"></player>
     </div>
 </div>
