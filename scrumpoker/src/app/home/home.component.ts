@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PokerGame } from '../interfaces/poker.interface';
 import { PokerService } from 'src/app/services/poker.service';
 import { AuthService } from '../services/auth.service';
-import { take, map } from 'rxjs/operators';
+import { take, map, mergeMap, flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -50,29 +50,30 @@ export class HomeComponent implements OnInit {
   }
 
   public pokerRoomSelected(id: string) {
-    let insert = false;
+    const pokerGames = this.items.pipe(take(1));
+    const user = this.authService.user.pipe(take(1));
 
-    this.items.subscribe(result => {
-      if (!insert) {
-        const tempPokerGame = result.find(r => r.id === id);
+    forkJoin([pokerGames, user]).subscribe(
+      result => {
+        const tempPokerGame = result[0].find(r => r.id === id);
+        const currentUser = result[1];
 
-        this.authService.user.pipe(take(1)).subscribe(user => {
-          tempPokerGame.players.push({
-            name: user.displayName,
-            uid: user.uid,
-            points: "0"
-          });
-  
-          this.firestore
-            .collection("items")
-            .doc(id)
-            .set(tempPokerGame, { merge: true });
-  
-          this.router.navigateByUrl(`/pokerroom/${id}`);
-          insert = true;
+        tempPokerGame.players.push({
+          name: currentUser.displayName,
+          uid: currentUser.uid,
+          points: "0"
         });
-      }
-    });
+
+        this.firestore
+          .collection("items")
+          .doc(id)
+          .set(tempPokerGame, { merge: true });
+
+        this.router.navigateByUrl(`/pokerroom/${id}`);
+      },
+      err => console.log('Error:', err),
+      () => console.log('Completed')
+    );
   }
 
   public addRoom() {
