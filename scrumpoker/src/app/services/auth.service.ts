@@ -52,8 +52,6 @@ export class AuthService {
       displayName
     }
 
-    console.log('new user', user);
-
     return userRef.set(user, { merge: true});
   }
 }

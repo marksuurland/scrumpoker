@@ -71,7 +71,7 @@
                 <div class="example-element-weight">Players: {{element.players.length}} </div>
               </div>
               <div class="example-element-description">
-                <button mat-raised-button color="primary" [disabled]="playerName === ''"
+                <button mat-raised-button color="primary" [disabled]="!(authService.user | async)"
                   (click)="pokerRoomSelected(element.id)">Join pokerroom</button>
               </div>
             </div>

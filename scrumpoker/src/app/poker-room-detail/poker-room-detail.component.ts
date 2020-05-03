@@ -3,6 +3,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { PokerGame, Player } from 'src/app/interfaces/poker.interface';
 import { ActivatedRoute } from '@angular/router';
 import { PokerService } from 'src/app/services/poker.service';
+import { AuthService } from '../services/auth.service';
+import { User } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-poker-room-detail',
@@ -12,22 +14,28 @@ import { PokerService } from 'src/app/services/poker.service';
 export class PokerRoomDetailComponent implements OnInit {
   public pokerGame: PokerGame = null;
   public currentPlayer: Player = null;
-  public loading: boolean = true;
-  public currentPlayerName: string;
+  public gameLoading: boolean = true;
+  public playerLoading: boolean = true;
 
   public pokerGameId: string;
 
-  constructor(private firestore: AngularFirestore, private route: ActivatedRoute, private pokerService: PokerService) {
+  constructor(
+    private firestore: AngularFirestore,
+    private route: ActivatedRoute,
+    public authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.pokerGameId = this.route.snapshot.paramMap.get('id');
-    this.currentPlayerName = this.pokerService.getPlayerName();
 
     this.firestore.collection('items').doc(this.pokerGameId).valueChanges().subscribe((result: PokerGame) => {
-      this.pokerGame = this.sortPlayers(result);
-      this.getCurrentPlayer(this.pokerGame);
-      this.loading = false;
+      this.gameLoading = false;
+
+      this.authService.user.subscribe((user: User) => {
+        this.pokerGame = this.sortPlayers(result, user);
+        this.currentPlayer = this.pokerGame.players.find(player => player.uid === user.uid);
+        this.playerLoading = false;
+      });
     });
   }
 
@@ -36,15 +44,9 @@ export class PokerRoomDetailComponent implements OnInit {
     this.firestore.collection('items').doc(this.pokerGameId).set({ ...this.pokerGame, players });
   }
 
-  private sortPlayers(pokerGame: PokerGame) {
-    pokerGame.players.sort((x, y) => { return x.name == this.currentPlayerName ? -1 : y.name == this.currentPlayerName ? 1 : 0; });
+  private sortPlayers(pokerGame: PokerGame, user: User) {
+    pokerGame.players.sort((x, y) => { return x.name == user.displayName ? -1 : y.name == user.displayName ? 1 : 0; });
     return pokerGame;
-  }
-
-  private getCurrentPlayer(pokerGame: PokerGame) {
-    if (!this.currentPlayer) {
-      this.currentPlayer = pokerGame.players.find(player => player.name === this.currentPlayerName);
-    }
   }
 
 }

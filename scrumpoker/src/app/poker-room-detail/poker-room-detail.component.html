@@ -5,9 +5,7 @@
     <div class="spacer"></div>
 </div>
 
-<div *ngIf="loading">
-</div>
-<div *ngIf="!loading" class="poker-container">
+<div *ngIf="!gameLoading && !playerLoading" class="poker-container">
     <button mat-raised-button color="primary" (click)="resetPokerPoints()">New poker session</button>
     <div class="single-player-container">
       <player *ngFor="let player of [currentPlayer]" [player]="player" [pokerGameId]="pokerGameId" [currentPlayer]="true"></player>

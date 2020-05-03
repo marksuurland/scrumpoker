@@ -6,6 +6,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { PokerGame } from '../interfaces/poker.interface';
 import { PokerService } from 'src/app/services/poker.service';
 import { AuthService } from '../services/auth.service';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -55,18 +56,21 @@ export class HomeComponent implements OnInit {
       if (!insert) {
         const tempPokerGame = result.find(r => r.id === id);
 
-        tempPokerGame.players.push({
-          name: this.playerName,
-          points: "0"
+        this.authService.user.pipe(take(1)).subscribe(user => {
+          tempPokerGame.players.push({
+            name: user.displayName,
+            uid: user.uid,
+            points: "0"
+          });
+  
+          this.firestore
+            .collection("items")
+            .doc(id)
+            .set(tempPokerGame, { merge: true });
+  
+          this.router.navigateByUrl(`/pokerroom/${id}`);
+          insert = true;
         });
-
-        this.firestore
-          .collection("items")
-          .doc(id)
-          .set(tempPokerGame, { merge: true });
-
-        this.router.navigateByUrl(`/pokerroom/${id}`);
-        insert = true;
       }
     });
   }
