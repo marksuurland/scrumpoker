@@ -31,13 +31,7 @@
     <p>{{ playerName }}</p>
 
     <div class="card-container">
-      <!-- <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Name</mat-label>
-          <input (blur)="setPlayerName()" [(ngModel)]="playerName" name="playername" matInput placeholder="Ex. Pizza">
-        </mat-form-field>
-      </form> -->
-      <div *ngIf="authService.user | async as user; else login">
+      <!-- <div *ngIf="authService.user | async as user; else login">
         <pre>{{ user | json}}</pre>
         <hr />
         <button (click)="authService.signOut()">Sign Out</button>
@@ -45,7 +39,10 @@
 
       <ng-template #login>
         <button (click)="authService.googleSignIn()">Login in</button>
-      </ng-template>
+      </ng-template> -->
+      <ngx-auth-firebaseui (onSuccess)="onSignInUser($event)"
+                     (onError)="printError($event)">
+      </ngx-auth-firebaseui>
 
     </div>
 

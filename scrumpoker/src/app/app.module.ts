@@ -17,6 +17,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PickCardComponent } from './poker-room-detail/pick-card/pick-card.component';
 import { PlayerComponent } from './poker-room-detail/player/player.component';
 import { DeckComponent } from './poker-room-detail/deck/deck.component';
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 const appRoutes: Routes = [
   { path: 'pokerroom/:id', component: PokerRoomDetailComponent },
@@ -48,7 +50,9 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase),
+    MatPasswordStrengthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

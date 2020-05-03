@@ -49,6 +49,14 @@ export class HomeComponent implements OnInit {
     this.pokerService.setPlayerName(this.playerName);
   }
 
+  onSignInUser(event) {
+    this.authService.updateUserData(event)
+  }
+
+  printError(event) {
+    console.error(event);
+  }
+
   public pokerRoomSelected(id: string) {
     const pokerGames = this.items.pipe(take(1));
     const user = this.authService.user.pipe(take(1));

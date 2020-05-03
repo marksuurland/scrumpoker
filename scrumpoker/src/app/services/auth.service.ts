@@ -31,19 +31,8 @@ export class AuthService {
       })
     )
   }
-
-  public async googleSignIn() {
-    const provider = new auth.GoogleAuthProvider();
-    const credential = await this.fireauth.signInWithPopup(provider);
-    return this.updateUserData(credential.user);
-  }
-
-  async signOut() {
-    await this.fireauth.signOut();
-    return this.router.navigate(['/']);
-  }
   
-  private updateUserData({ uid, email, displayName}: User) {
+  public updateUserData({ uid, email, displayName}: User) {
     const userRef: AngularFirestoreDocument<User> = this.firestore.doc(`users/${uid}`);
     
     const user = {
