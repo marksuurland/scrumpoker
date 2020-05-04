@@ -1,5 +1,5 @@
 export interface PokerGame {
-    id: string,
+    id?: string,
     name: string;
     players: Player[];
 }

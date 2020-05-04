@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PickCardComponent } from './poker-room-detail/pick-card/pick-card.component';
 import { PlayerComponent } from './poker-room-detail/player/player.component';
@@ -51,6 +52,7 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatIconModule,
     NgxAuthFirebaseUIModule.forRoot(environment.firebase),
     MatPasswordStrengthModule
   ],

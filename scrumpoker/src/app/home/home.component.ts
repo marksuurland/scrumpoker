@@ -6,7 +6,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { PokerGame } from '../interfaces/poker.interface';
 import { PokerService } from 'src/app/services/poker.service';
 import { AuthService } from '../services/auth.service';
-import { take, map, mergeMap, flatMap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { User } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'app-home',
@@ -66,16 +67,18 @@ export class HomeComponent implements OnInit {
         const tempPokerGame = result[0].find(r => r.id === id);
         const currentUser = result[1];
 
-        tempPokerGame.players.push({
-          name: currentUser.displayName,
-          uid: currentUser.uid,
-          points: "0"
-        });
+        if (!this.gameHasPlayer(tempPokerGame, currentUser)) {
+          tempPokerGame.players.push({
+            name: currentUser.displayName,
+            uid: currentUser.uid,
+            points: "0"
+          });
 
-        this.firestore
-          .collection("items")
-          .doc(id)
-          .set(tempPokerGame, { merge: true });
+          this.firestore
+            .collection("items")
+            .doc(id)
+            .set(tempPokerGame, { merge: true });
+        }
 
         this.router.navigateByUrl(`/pokerroom/${id}`);
       },
@@ -85,7 +88,10 @@ export class HomeComponent implements OnInit {
   }
 
   public addRoom() {
-    this.firestore.collection('items').add({ 'name': this.newRoomName }).then(
+    this.firestore.collection('items').add(
+      { name: this.newRoomName,
+        players: [] 
+      } as PokerGame).then(
       res => {
         console.log('succeed', res);
         this.newRoomName = '';
@@ -94,6 +100,14 @@ export class HomeComponent implements OnInit {
         console.log('error', err);
       }
     );
+  }
+
+  private gameHasPlayer(pokerGame: PokerGame, currentUser: User): boolean {
+    if (!pokerGame.players) {
+      return false;
+    } else {
+      return pokerGame.players.findIndex(player => player.uid === currentUser.uid) !== -1;
+    }
   }
 
 }

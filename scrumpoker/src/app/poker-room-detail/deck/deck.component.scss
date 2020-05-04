@@ -1,5 +1,5 @@
 .large-dialog {
-    width: 1400px;
+    width: 1100px;
     height: 100%;
 }
 
@@ -9,7 +9,7 @@
   }
   
   #deck {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
