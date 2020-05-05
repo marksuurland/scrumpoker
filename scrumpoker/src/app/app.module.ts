@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 import { environment } from 'src/environments/environment';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireFunctionsModule,
     FormsModule,
     RouterModule.forRoot(
       appRoutes
@@ -56,7 +58,9 @@ const appRoutes: Routes = [
     NgxAuthFirebaseUIModule.forRoot(environment.firebase),
     MatPasswordStrengthModule
   ],
-  providers: [],
+  providers: [
+    { provide: REGION, useValue: 'europe-west1' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

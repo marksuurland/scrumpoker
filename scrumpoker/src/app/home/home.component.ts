@@ -8,6 +8,7 @@ import { PokerService } from 'src/app/services/poker.service';
 import { AuthService } from '../services/auth.service';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/interfaces/user.interface';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
   public playerName = ''
 
   constructor(private firestore: AngularFirestore,
+    private fireFunctions: AngularFireFunctions,
     private router: Router,
     private pokerService: PokerService,
     public authService: AuthService) {
@@ -88,18 +90,22 @@ export class HomeComponent implements OnInit {
   }
 
   public addRoom() {
-    this.firestore.collection('items').add(
-      { name: this.newRoomName,
-        players: [] 
-      } as PokerGame).then(
-      res => {
-        console.log('succeed', res);
-        this.newRoomName = '';
-      },
-      err => {
-        console.log('error', err);
-      }
-    );
+    this.fireFunctions.httpsCallable('addPokerRoom')({ name: this.newRoomName }).subscribe(result => {
+      // Read result of the Cloud Function.
+      console.log('result', result);
+    });
+    // this.firestore.collection('items').add(
+    //   { name: this.newRoomName,
+    //     players: [] 
+    //   } as PokerGame).then(
+    //   res => {
+    //     console.log('succeed', res);
+    //     this.newRoomName = '';
+    //   },
+    //   err => {
+    //     console.log('error', err);
+    //   }
+    // );
   }
 
   private gameHasPlayer(pokerGame: PokerGame, currentUser: User): boolean {
