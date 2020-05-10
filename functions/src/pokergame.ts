@@ -8,8 +8,19 @@ exports.addPokerRoom = functions
     .https.onCall(async (data, context) => {
         const name = data.name;
         const newItem = await admin.firestore().collection('/items').add({
-                name,
-                players: []
+            name,
+            players: []
         });
-        return { id: newItem.id};
+        return { id: newItem.id };
+    });
+
+exports.resetPokerPoints = functions
+    .region('europe-west1')
+    .https.onCall(async (data, context) => {
+        const id = data.id;
+        const pokerGame = await admin.firestore().collection('items').doc(id).get();
+        // TODO
+        console.log('data', pokerGame.data);
+        const result = await admin.firestore().collection('items').doc(id).set({ ...pokerGame.data, players: [] });
+        return { isEqual: result.isEqual };
     });
