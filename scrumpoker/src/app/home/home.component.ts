@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/interfaces/user.interface';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
     private fireFunctions: AngularFireFunctions,
     private router: Router,
     private pokerService: PokerService,
+    private notificationsService: NotificationsService,
     public authService: AuthService) {
     this.items = firestore.collection('items').valueChanges({ idField: 'id' });
   }
@@ -90,22 +92,15 @@ export class HomeComponent implements OnInit {
   }
 
   public addRoom() {
-    this.fireFunctions.httpsCallable('addPokerRoom')({ name: this.newRoomName }).subscribe(result => {
-      // Read result of the Cloud Function.
-      console.log('result', result);
-    });
-    // this.firestore.collection('items').add(
-    //   { name: this.newRoomName,
-    //     players: [] 
-    //   } as PokerGame).then(
-    //   res => {
-    //     console.log('succeed', res);
-    //     this.newRoomName = '';
-    //   },
-    //   err => {
-    //     console.log('error', err);
-    //   }
-    // );
+    this.notificationsService.info(`${this.newRoomName} being created`);
+
+    this.fireFunctions.httpsCallable('addPokerRoom')({ name: this.newRoomName }).subscribe(
+      result => {
+        this.notificationsService.success(`${this.newRoomName} succesfully created`);
+      },
+      error => {
+        this.notificationsService.error(`${this.newRoomName} could not be created`);
+      });
   }
 
   private gameHasPlayer(pokerGame: PokerGame, currentUser: User): boolean {

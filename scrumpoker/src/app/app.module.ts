@@ -21,6 +21,7 @@ import { PlayerComponent } from './poker-room-detail/player/player.component';
 import { DeckComponent } from './poker-room-detail/deck/deck.component';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 const appRoutes: Routes = [
   { path: 'pokerroom/:id', component: PokerRoomDetailComponent },
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes
     ),
+    SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule,
     MatButtonModule,
     MatTableModule,
